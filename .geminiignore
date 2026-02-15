@@ -1,0 +1,65 @@
+# ==========================================
+# CURSOR INDEXING OPTIMIZATION (v2.0)
+# ==========================================
+
+# --- OS & IDE Metadata ---
+.DS_Store
+.Thumbs.db
+.history/
+.idea/
+.vscode/
+*.swp
+*.bak
+
+# --- iOS & Xcode (High-Volume Targets) ---
+# Prevents indexing gigabytes of binary data
+**/DerivedData/
+**/Build/
+**/Index/
+**/*.xcresult/
+**/*.xcuserstate
+**/*.xcscmblueprint
+**/*.moved-aside
+**/*.orig
+# Exclude CocoaPods/Carthage unless explicitly debugging them
+**/Pods/
+**/Carthage/Checkouts/
+
+# --- Data Engineering (Token & Memory Guard) ---
+# Prevents the AI from reading large datasets
+**/*.csv
+**/*.parquet
+**/*.jsonl
+**/*.avro
+**/*.orc
+**/*.sql.dump
+**/*.sqlite
+**/*.db
+# DuckDB/temporary processing files
+**/*.wal
+**/*.tmp_data
+
+# --- Python & Environments ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.env
+.tox/
+.nox/
+.pytest_cache/
+.ipynb_checkpoints/
+# Exclude large distribution builds
+dist/
+build/
+*.egg-info/
+
+# --- Documentation Artifacts ---
+# Exclude auto-generated docs to prevent duplicate context
+**/site-packages/
+**/htmlcov/
+**/.docusaurus/
+**/_build/
