@@ -27,12 +27,12 @@
 
 # --- Data Engineering (Token & Memory Guard) ---
 # Prevents the AI from reading large datasets
-**/data/**/*.csv
-**/data/**/*.parquet
-**/data/**/*.jsonl
-**/data/**/*.avro
-**/data/**/*.orc
-**/data/**/*.sql.dump
+**/*.csv
+**/*.parquet
+**/*.jsonl
+**/*.avro
+**/*.orc
+**/*.sql.dump
 **/*.sqlite
 **/*.db
 # DuckDB/temporary processing files
