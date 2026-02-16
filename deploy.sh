@@ -103,9 +103,11 @@ DEST_DIR="$(cd "$(dirname "$DEST_DIR")" 2>/dev/null && pwd)/$(basename "$DEST_DI
 print_info "Deploying Cursor template to: $DEST_DIR"
 
 # Ensure destination directory exists
+NEW_DIR=false
 if [[ ! -d "$DEST_DIR" ]]; then
     print_info "Creating destination directory..."
     mkdir -p "$DEST_DIR"
+    NEW_DIR=true
 fi
 
 # Check if .cursor/ already exists in destination
@@ -168,7 +170,7 @@ done
 
 # Ensure .gitignore includes Cursor template files
 GITIGNORE="$DEST_DIR/.gitignore"
-GITIGNORE_ENTRIES=(".cursor/" "AGENTS.md" "BUGBOTS.md")
+GITIGNORE_ENTRIES=(".cursor/" ".cursorignore" "AGENTS.md" "BUGBOTS.md")
 
 if [[ ! -f "$GITIGNORE" ]]; then
     print_info "Creating .gitignore..."
@@ -187,15 +189,11 @@ else
     print_success "Updated .gitignore"
 fi
 
-# Initialize git repository if requested
-if [[ "$NO_GIT" == false ]]; then
-    if [[ ! -d "$DEST_DIR/.git" ]]; then
-        print_info "Initializing git repository..."
-        (cd "$DEST_DIR" && git init)
-        print_success "Git repository initialized"
-    else
-        print_info "Git repository already exists - skipping initialization"
-    fi
+# Initialize git repository for newly created directories
+if [[ "$NEW_DIR" == true ]] && [[ "$NO_GIT" == false ]]; then
+    print_info "Initializing git repository..."
+    (cd "$DEST_DIR" && git init)
+    print_success "Git repository initialized"
 fi
 
 # Summary
