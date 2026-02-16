@@ -166,25 +166,25 @@ for file in "$SCRIPT_DIR"/*; do
     fi
 done
 
-# Ensure .gitignore includes .cursor/
+# Ensure .gitignore includes Cursor template files
 GITIGNORE="$DEST_DIR/.gitignore"
-if [[ -f "$GITIGNORE" ]]; then
-    if ! grep -qx '.cursor/' "$GITIGNORE"; then
-        print_info "Appending .cursor/ to existing .gitignore..."
-        echo "" >> "$GITIGNORE"
-        echo "# Cursor AI rules (managed by template)" >> "$GITIGNORE"
-        echo ".cursor/" >> "$GITIGNORE"
-        print_success "Added .cursor/ to .gitignore"
-    else
-        print_info ".cursor/ already present in .gitignore - skipping"
-    fi
-else
+GITIGNORE_ENTRIES=(".cursor/" "AGENTS.md" "BUGBOTS.md")
+
+if [[ ! -f "$GITIGNORE" ]]; then
     print_info "Creating .gitignore..."
-    cat > "$GITIGNORE" << 'GITIGNORE_EOF'
-# Cursor AI rules (managed by template)
-.cursor/
-GITIGNORE_EOF
-    print_success "Created .gitignore with .cursor/ exclusion"
+    echo "# Cursor AI config (managed by template)" > "$GITIGNORE"
+    for entry in "${GITIGNORE_ENTRIES[@]}"; do
+        echo "$entry" >> "$GITIGNORE"
+    done
+    print_success "Created .gitignore"
+else
+    for entry in "${GITIGNORE_ENTRIES[@]}"; do
+        if ! grep -qx "$entry" "$GITIGNORE"; then
+            print_info "Adding $entry to .gitignore..."
+            echo "$entry" >> "$GITIGNORE"
+        fi
+    done
+    print_success "Updated .gitignore"
 fi
 
 # Initialize git repository if requested
