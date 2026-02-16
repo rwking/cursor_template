@@ -170,7 +170,7 @@ done
 
 # Ensure .gitignore includes Cursor template files
 GITIGNORE="$DEST_DIR/.gitignore"
-GITIGNORE_ENTRIES=(".cursor/" ".cursorignore" "AGENTS.md" "BUGBOTS.md")
+GITIGNORE_ENTRIES=(".cursor/" ".cursorignore" "AGENTS.md" "BUGBOT.md")
 
 if [[ ! -f "$GITIGNORE" ]]; then
     print_info "Creating .gitignore..."
