@@ -163,6 +163,27 @@ for file in "$SCRIPT_DIR"/*; do
     fi
 done
 
+# Ensure .gitignore includes .cursor/
+GITIGNORE="$DEST_DIR/.gitignore"
+if [[ -f "$GITIGNORE" ]]; then
+    if ! grep -qx '.cursor/' "$GITIGNORE"; then
+        print_info "Appending .cursor/ to existing .gitignore..."
+        echo "" >> "$GITIGNORE"
+        echo "# Cursor AI rules (managed by template)" >> "$GITIGNORE"
+        echo ".cursor/" >> "$GITIGNORE"
+        print_success "Added .cursor/ to .gitignore"
+    else
+        print_info ".cursor/ already present in .gitignore - skipping"
+    fi
+else
+    print_info "Creating .gitignore..."
+    cat > "$GITIGNORE" << 'GITIGNORE_EOF'
+# Cursor AI rules (managed by template)
+.cursor/
+GITIGNORE_EOF
+    print_success "Created .gitignore with .cursor/ exclusion"
+fi
+
 # Initialize git repository if requested
 if [[ "$NO_GIT" == false ]]; then
     if [[ ! -d "$DEST_DIR/.git" ]]; then
