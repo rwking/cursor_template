@@ -43,7 +43,7 @@ Use consistent prefixes:
 - `[SECURITY]` — Missing input sanitization, hardcoded secrets, auth bypass
 - `[PERFORMANCE]` — Unindexed queries, O(n²) loops, full table scans
 - `[LOGIC]` — Incorrect conditions, off-by-one, missing edge cases
-- `[CONCURRENCY]` — Data races, missing isolation, legacy GCD patterns
+- `[CONCURRENCY]` — Data races, missing isolation, legacy GCD patterns (may be blocker or concern — see Swift Concurrency rules)
 - `[TESTING]` — Missing or inadequate test coverage
 
 ---
@@ -70,7 +70,7 @@ Use consistent prefixes:
 - Include code examples only for blockers
 - Bold key impact/risk words
 - Use consistent prefixes like [SECURITY], [PERFORMANCE], [LOGIC] for easy scanning
-- If PR is genuinely fine, end with: ✅ "This PR is safe to merge as-is."
+- If PR is genuinely fine, end with: ✅ "This PR is safe to merge as-is." (This is an exception to the first formatting rule.)
 
 ---
 
@@ -91,19 +91,19 @@ or PII access, add a comment requesting **security review**. Specifically:
 - Logging that may expose secrets or auth headers → **concern**
 
 ### Swift Concurrency (iOS)
-Flag the following as concerns in any `.swift` file:
-- `DispatchQueue.main.async` → should use `@MainActor` or `MainActor.run {}`
-- `@unchecked Sendable` → must fix underlying isolation instead
-- `ObservableObject` / `@Published` in new code → should use `@Observable` macro
-- Unstructured `Task { }` without `[weak self]` → potential retain cycle
-- Missing `@MainActor` on classes or functions that update UI
+Flag the following in any `.swift` file:
+- `DispatchQueue.main.async` → **blocker** — must use `@MainActor` or `MainActor.run {}`
+- `@unchecked Sendable` → **blocker** — must fix underlying isolation instead
+- Missing `@MainActor` on classes or functions that update UI → **blocker**
+- `ObservableObject` / `@Published` in new code → concern — should use `@Observable` macro
+- Unstructured `Task { }` without `[weak self]` → concern — potential retain cycle
 
 ### Data Engineering (SQL / Python)
 Flag the following in SQL or Python pipeline code:
 - SQL keywords not in UPPERCASE → style violation
 - Implicit joins (comma-separated FROM) → should use explicit JOIN type
 - Missing table aliases → readability concern
-- `print()` in pipeline code → should use structured logging
+- `print()` in pipeline code → **blocker** — must use structured logging
 - Missing type hints on pipeline function signatures → concern
 
 ### Dependency Changes
