@@ -102,22 +102,25 @@ DEST_DIR="$(cd "$(dirname "$DEST_DIR")" 2>/dev/null && pwd)/$(basename "$DEST_DI
 
 print_info "Deploying Cursor template to: $DEST_DIR"
 
-# Check if destination exists
-if [[ -d "$DEST_DIR" ]]; then
+# Ensure destination directory exists
+if [[ ! -d "$DEST_DIR" ]]; then
+    print_info "Creating destination directory..."
+    mkdir -p "$DEST_DIR"
+fi
+
+# Check if .cursor/ already exists in destination
+if [[ -d "$DEST_DIR/.cursor" ]]; then
     if [[ "$FORCE" == false ]]; then
-        print_warning "Destination directory already exists"
-        read -p "Do you want to continue and overwrite existing files? (y/N): " -n 1 -r
+        print_warning ".cursor/ already exists in destination"
+        read -p "Overwrite existing Cursor config? (y/N): " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             print_info "Deployment cancelled"
             exit 0
         fi
     else
-        print_warning "Destination exists - overwriting files (--force enabled)"
+        print_warning "Overwriting existing .cursor/ config (--force enabled)"
     fi
-else
-    print_info "Creating destination directory..."
-    mkdir -p "$DEST_DIR"
 fi
 
 # Copy template files
