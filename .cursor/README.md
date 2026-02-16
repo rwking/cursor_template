@@ -35,3 +35,32 @@ You can create rules by:
 3. Using the create-rule skill
 
 For more information, ask the AI agent about creating Cursor rules.
+
+## Skills Directory
+
+Skills are reusable agent capabilities stored as `SKILL.md` files in `skills/`:
+
+| Skill | Purpose |
+|-------|---------|
+| `ui-design-expert` | Cross-platform UI/UX design, color systems, trending components |
+| `api-design` | REST/GraphQL contract design for web + mobile clients |
+| `web-frontend-architecture` | React/Next.js project structure, patterns, and best practices |
+
+## Potential Enhancements
+
+Skills that would further strengthen a web + mobile companion project:
+
+### Auth Flows (`auth-flows`)
+Cross-platform authentication: JWT lifecycle, refresh token rotation, OAuth/social login, secure storage per platform (httpOnly cookies for web, Keychain for iOS, EncryptedSharedPreferences for Android), and session management patterns.
+
+### Project Scaffolding (`project-scaffolding`)
+Monorepo or polyrepo structure decisions, shared TypeScript types between web and API, Xcode project setup, environment configuration (`.env` per target), and CI/CD pipeline templates. Best used once at project kickoff.
+
+### Accessibility Audit (`accessibility-audit`)
+Dedicated skill for auditing screens against WCAG 2.2 AA: semantic HTML, ARIA roles, VoiceOver/TalkBack labels, dynamic type, reduced motion, focus management, and color contrast verification.
+
+### Responsive Layout (`responsive-layout`)
+Deep patterns for layouts that adapt across phone, tablet, and desktop: adaptive navigation (tab bar to sidebar), responsive grids, container queries, and breakpoint-driven component variants.
+
+### Real-Time Sync (`real-time-sync`)
+For apps with live data needs (chat, notifications, collaborative editing): WebSocket/SSE patterns, optimistic updates, conflict resolution, offline queue, and reconnection strategies.
