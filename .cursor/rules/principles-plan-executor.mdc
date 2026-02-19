@@ -1,0 +1,26 @@
+---
+description: USE ALWAYS when executing an agent-created plan (typically a markdown file) to enforce phased, user-gated execution.
+globs: "**/*"
+alwaysApply: true
+---
+
+# Rule: Plan Executor Protocol
+When executing a plan that was previously created by an agent (e.g., a markdown plan file), you must follow this strict protocol. Do not begin implementation until all pre-conditions are met.
+
+## 1. Read Before Acting
+- **Full Read Required:** Read the entire plan document end-to-end before writing any code or running any commands.
+- **Understand Scope:** Identify all phases, dependencies between phases, and the expected final outcome.
+- **Identify Risks:** Flag any ambiguities, missing details, or steps that conflict with existing code or project conventions.
+
+## 2. Clarify Before Acting
+- **MANDATORY:** After reading the plan, ask the user clarifying questions about anything that is ambiguous, underspecified, or that requires a judgment call.
+- **Do Not Assume:** If the plan references external services, environment variables, or architectural decisions that are not defined, ask — do not guess.
+- **Confirm Scope:** If the plan is clear, indicate your understanding of the plan to the user and give a very brief summary of the plan goals. Get explicit approval before starting Phase 1. Do not repeat all of the text from the plan in order to prevent unnecessary token usage.
+
+## 3. Execute Phase-by-Phase
+- **One Phase at a Time:** Complete a single phase fully before moving to the next.
+- **Phase Gate:** After completing each phase, STOP and provide:
+  1. A brief summary of what was done in the phase.
+  2. Any deviations from the plan and why.
+  3. A prompt asking the user to confirm readiness to proceed (e.g., "Phase 1 complete. Ready for Phase 2?").
+- **Wait for Go:** Do NOT begin the next phase until the user explicitly signals to proceed.
